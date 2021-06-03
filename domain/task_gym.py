@@ -1,8 +1,4 @@
 import random
-from pprint import pprint
-
-from PIL import Image
-from matplotlib import pyplot as plt
 
 from .make_env import make_env
 from prettyNEAT import *
@@ -72,16 +68,7 @@ class GymTask:
 
         # == EA-elective-NEAT ==========================================================================================
         if view:
-            print(self.images)
-            print(len(self.images))
-            print(self.images[0].getdata())
-            for i in range(len(self.images)):
-                self.images[i]=self.images[i].convert('P')
-                print(self.images[i].getdata())
-            plt.imshow(self.images[0])
-            plt.show()
             self.images[0].save("./video.gif", save_all=True, append_images=self.images[1:], optimize=False, duration=1000 // 30, loop=0)
-            print("youpi")
         # ==============================================================================================================
 
         return fitness
