@@ -32,7 +32,7 @@ class MinatarWrapper(Environment):
 
         return state, reward, done, {}
 
-    def render(self, done=False):
+    def render(self, time=0, done=False):
         """
             Resets the environment.
 
@@ -42,7 +42,8 @@ class MinatarWrapper(Environment):
             Return:
                 (observation) the first observation.
         """
-        self.display_state(time=50)
+        if time:
+            self.display_state(time=time)
         state = self._state()
         state = state / np.max(state) * 256
         image = Image.fromarray(state)

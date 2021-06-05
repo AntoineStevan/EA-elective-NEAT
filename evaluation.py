@@ -31,7 +31,7 @@ def main(argv):
     # Load task and parameters
     hyp = loadHyp(pFileName=hyp_default)
     updateHyp(hyp, hyp_adjust)
-    task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], gif_file=hyp["gif_file"])
+    task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], gif_file=hyp["gif_file"], time=hyp["time"])
 
     # Bullet needs some extra help getting started
     if hyp['task'].startswith("bullet"):

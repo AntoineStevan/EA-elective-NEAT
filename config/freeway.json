@@ -27,6 +27,7 @@
     "save_mod": 8,
     "bestReps": 20,
     "budget": 50000,
-    "gif_file": "./log/breakout/"
+    "gif_file": "./log/breakout/",
+    "time": 0
 
 }

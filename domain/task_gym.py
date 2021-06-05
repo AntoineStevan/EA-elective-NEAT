@@ -10,7 +10,7 @@ class GymTask:
     """Problem domain to be solved by neural network. Uses OpenAI Gym patterns.
     """
 
-    def __init__(self, game, paramOnly=False, nReps=1, budget=50_000, gif_file=''):
+    def __init__(self, game, paramOnly=False, nReps=1, budget=50_000, gif_file='', time=0):
         """Initializes task environment
 
         Args:
@@ -43,6 +43,7 @@ class GymTask:
         self.budget = budget
         self.gif_file = gif_file if gif_file.endswith(".gif") else gif_file + ".gif"
         self.gif_file = self.gif_file[:-4] + f"{random.randint(0, 0xffffffff)}.gif"
+        self.time=time
         # ==============================================================================================================
 
         # Special needs...
@@ -141,5 +142,5 @@ class GymTask:
         if self.needsClosed:
             image = self.env.render(close=done)
         else:
-            image = self.env.render()
+            image = self.env.render(time=self.time)
         self.images.append(image)
