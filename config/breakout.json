@@ -1,6 +1,6 @@
 {
     "task":"minatar:breakout",
-    "maxGen": 8,
+    "maxGen": 100,
     "popSize": 32,
     "alg_nReps": 2,
     "alg_speciate": "neat",
@@ -25,6 +25,7 @@
     "spec_geneCoef": 1,
     "spec_weightCoef": 0.5,
     "save_mod": 8,
-    "bestReps": 20
+    "bestReps": 20,
+    "budget": 997
 
 }

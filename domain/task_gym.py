@@ -8,7 +8,7 @@ class GymTask:
     """Problem domain to be solved by neural network. Uses OpenAI Gym patterns.
     """
 
-    def __init__(self, game, paramOnly=False, nReps=1):
+    def __init__(self, game, paramOnly=False, nReps=1, budget=50_000):
         """Initializes task environment
 
         Args:
@@ -36,6 +36,9 @@ class GymTask:
         # == EA-elective-NEAT ==========================================================================================
         self.is_minatar = game.env_name.startswith("minatar:")
         self.images = []
+
+        self.curr_eval = 0
+        self.budget = budget
         # ==============================================================================================================
 
         # Special needs...
@@ -64,6 +67,9 @@ class GymTask:
         reward = np.empty(nRep)
         for iRep in range(nRep):
             reward[iRep] = self.testInd(wVec, aVec, view=view, seed=seed + iRep)
+            self.curr_eval += 1
+            if self.curr_eval >= self.budget:
+                break
         fitness = np.mean(reward)
 
         # == EA-elective-NEAT ==========================================================================================

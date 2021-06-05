@@ -11,7 +11,8 @@ from domain import (
     loadHyp,
     updateHyp,
     GymTask,
-    games)  # Task environments
+    games
+)  # Task environments
 
 
 # -- Run NEAT ------------------------------------------------------------ -- #
@@ -37,7 +38,7 @@ def gatherData(data, neat, gen, hyp, savePop=False):
     """
     data.gatherData(neat.pop, neat.species)
     if (gen % hyp['save_mod']) == 0:
-        data = checkBest(data)
+        # data = checkBest(data)
         data.save(gen)
 
     if savePop is True:  # Get a sample pop to play with in notebooks
@@ -66,7 +67,7 @@ def checkBest(data):
     """
     global filename, hyp
     if data.newBest is True:
-        bestReps = max(hyp['bestReps'], (nWorker - 1))
+        bestReps = hyp['bestReps']  # max(hyp['bestReps'], (nWorker - 1))
         rep = np.tile(data.best[-1], bestReps)
         fitVector = batchMpiEval(rep, sameSeedForEachIndividual=False)
         trueFit = np.mean(fitVector)
@@ -115,18 +116,27 @@ if __name__ == "__main__":
     data = DataGatherer(fileName, hyp)
     neat = Neat(hyp)
 
+    task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
     for gen in range(hyp['maxGen']):
         pop = neat.ask()  # Get newly evolved individuals from NEAT
         reward = np.empty(len(pop), dtype=np.float64)
         for i in range(len(pop)):
-            task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'])
             wVec = pop[i].wMat.flatten()
             aVec = pop[i].aVec.flatten()
             reward[i] = task.getFitness(wVec, aVec)  # process it
+            if task.curr_eval >= task.budget:
+                break
         neat.tell(reward)  # Send fitness to NEAT
 
+        if task.curr_eval >= task.budget:
+            break
+
+        # curr_eval += hyp['alg_nReps'] * len(pop)
+
         data = gatherData(data, neat, gen, hyp)
-        print(gen, '\t - \t', data.display())
+        print(gen, '\t - \t', data.display(), "->", task.curr_eval)
+
+    print(task.curr_eval, task.budget)
 
     # Clean up and data gathering at run end
     data = gatherData(data, neat, gen, hyp, savePop=True)

@@ -9,6 +9,9 @@ class MinatarWrapper(Environment):
     """
 
     """
+    # def __init__(self, env_name, sticky_action_prob=.0, random_seed=0):
+    #     super(MinatarWrapper, self).__init__(env_name, sticky_action_prob=sticky_action_prob, random_seed=random_seed)
+
     def reset(self):
         """
             Resets the environment.
