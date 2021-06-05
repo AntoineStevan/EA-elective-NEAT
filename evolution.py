@@ -75,19 +75,22 @@ def checkBest(data):
         fitVector=[]
         for i in range(bestReps):
             fitVector.append(task.getFitness(wVec,aVec))
-            print(fitVector)
         trueFit = np.mean(fitVector)
-        print(trueFit)
+        print("New evaluated true fitness : {:.2f} |***| Previous true fitness : {:.2f}".format(trueFit, data.best[-2].fitness))
+        data.elite[-1].fitness = trueFit
+        data.fit_max[-1] = trueFit
 
         if trueFit > data.best[-2].fitness:  # Actually better!
             data.best[-1].fitness = trueFit
             data.fit_top[-1] = trueFit
             data.bestFitVec = fitVector
+            print("Actually better!")
         else:  # Just lucky!
-            prev = hyp['save_mod']
+            prev = hyp['save_mod']+1
             data.best[-prev:] = data.best[-prev]
             data.fit_top[-prev:] = data.fit_top[-prev]
             data.newBest = False
+            print("Just lucky!")
     return data
 
 

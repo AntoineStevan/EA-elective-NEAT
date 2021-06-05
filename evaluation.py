@@ -41,8 +41,7 @@ def main(argv):
     wVec, aVec, wKey = importNet(infile)
     fitness = np.empty(1)
     fitness[:] = task.getFitness(wVec, aVec, view=view, nRep=nRep)
-
-    print("[***]\tFitness:", fitness)
+    print("[***]\tFitness: {:.2f}".format(fitness[0]))
     lsave(outPref + 'fitDist.out', fitness)
 
 
