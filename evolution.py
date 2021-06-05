@@ -134,9 +134,8 @@ if __name__ == "__main__":
         # curr_eval += hyp['alg_nReps'] * len(pop)
 
         data = gatherData(data, neat, gen, hyp)
-        print(gen, '\t - \t', data.display(), "->", task.curr_eval)
+        print(gen, '\t - \t', data.display(), f"|---| budget: {task.curr_eval} / {task.budget}")
 
-    print(task.curr_eval, task.budget)
 
     # Clean up and data gathering at run end
     data = gatherData(data, neat, gen, hyp, savePop=True)

@@ -1,6 +1,6 @@
 {
     "task":"minatar:breakout",
-    "maxGen": 100,
+    "maxGen": 50000,
     "popSize": 32,
     "alg_nReps": 2,
     "alg_speciate": "neat",
