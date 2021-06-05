@@ -24,8 +24,8 @@
     "spec_threshMin": 2.0,
     "spec_geneCoef": 1,
     "spec_weightCoef": 0.5,
-    "save_mod": 8,
+    "save_mod": 60000,
     "bestReps": 20,
-    "budget": 997
+    "budget": 50000
 
 }
