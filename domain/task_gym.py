@@ -1,5 +1,7 @@
 import random
 
+import numpy as np
+
 from .make_env import make_env
 from prettyNEAT import *
 
@@ -8,7 +10,7 @@ class GymTask:
     """Problem domain to be solved by neural network. Uses OpenAI Gym patterns.
     """
 
-    def __init__(self, game, paramOnly=False, nReps=1, budget=50_000):
+    def __init__(self, game, paramOnly=False, nReps=1, budget=50_000, gif_file=''):
         """Initializes task environment
 
         Args:
@@ -39,6 +41,8 @@ class GymTask:
 
         self.curr_eval = 0
         self.budget = budget
+        self.gif_file = gif_file if gif_file.endswith(".gif") else gif_file + ".gif"
+        self.gif_file = self.gif_file[:-4] + f"{random.randint(0, 0xffffffff)}.gif"
         # ==============================================================================================================
 
         # Special needs...
@@ -74,7 +78,8 @@ class GymTask:
 
         # == EA-elective-NEAT ==========================================================================================
         if view:
-            self.images[0].save("./video.gif", save_all=True, append_images=self.images[1:], optimize=False, duration=1000 // 30, loop=0)
+            print("saving gif file inside", self.gif_file)
+            self.images[0].save(self.gif_file, save_all=True, append_images=self.images[1:], optimize=False, duration=1000 // 30, loop=0)
         # ==============================================================================================================
 
         return fitness
