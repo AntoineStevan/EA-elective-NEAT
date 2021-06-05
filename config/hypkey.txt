@@ -31,3 +31,7 @@ spec_geneCoef     - (float)  - weighting of non-matching genes in compatibility 
 spec_weightCoef   - (float)  - weighting of weight differences in compatibility distance calculation
 save_mod          - (int)    - generations between saving results to disk
 bestReps          - (int)    - number of times to test new 'best' solutions to confirm
+budget            - (int)    - maximum number of evaluation
+gif_file          - (str)    - location to save the gif after evaluation
+time              - (int)    - ms per frame during evaluation, if 0 no imshow
+

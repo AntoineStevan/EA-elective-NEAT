@@ -67,10 +67,18 @@ def checkBest(data):
     """
     global filename, hyp
     if data.newBest is True:
-        bestReps = hyp['bestReps']  # max(hyp['bestReps'], (nWorker - 1))
-        rep = np.tile(data.best[-1], bestReps)
-        fitVector = batchMpiEval(rep, sameSeedForEachIndividual=False)
+        print('newBest True')
+        bestReps = hyp['bestReps']
+        task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
+        wVec = data.best[-1].wMat.flatten()
+        aVec = data.best[-1].aVec.flatten()
+        fitVector=[]
+        for i in range(bestReps):
+            fitVector.append(task.getFitness(wVec,aVec))
+            print(fitVector)
         trueFit = np.mean(fitVector)
+        print(trueFit)
+
         if trueFit > data.best[-2].fitness:  # Actually better!
             data.best[-1].fitness = trueFit
             data.fit_top[-1] = trueFit
@@ -130,8 +138,6 @@ if __name__ == "__main__":
 
         if task.curr_eval >= task.budget:
             break
-
-        # curr_eval += hyp['alg_nReps'] * len(pop)
 
         data = gatherData(data, neat, gen, hyp)
         print(gen, '\t - \t', data.display(), f"|---| budget: {task.curr_eval} / {task.budget}")
