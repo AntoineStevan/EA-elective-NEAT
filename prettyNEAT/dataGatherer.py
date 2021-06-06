@@ -150,4 +150,7 @@ class DataGatherer():
 def lsave(filename, data):
     """Short hand for numpy save with csv and float precision defaults
     """
+    folder = os.path.join(*filename.split('/')[:-1])
+    if not os.path.exists(folder):
+        os.makedirs(folder)
     np.savetxt(filename, data, delimiter=',', fmt='%1.2e')
