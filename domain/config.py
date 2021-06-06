@@ -178,7 +178,7 @@ breakout = Game(env_name="minatar:breakout",
                 weightCap=2.0,
                 noise_bias=0.0,
                 output_noise=[False, False, False],
-                max_episode_length=100,
+                max_episode_length=1000,
                 in_out_labels=['x', 'x_dot', 'cos(theta)', 'sin(theta)', 'theta_dot',
                                'force']
                 )
@@ -199,7 +199,7 @@ freeway = Game(env_name="minatar:freeway",
                 weightCap=2.0,
                 noise_bias=0.0,
                 output_noise=[False, False, False],
-                max_episode_length=200,
+                max_episode_length=1000,
                 in_out_labels=['x', 'x_dot', 'cos(theta)', 'sin(theta)', 'theta_dot',
                                'force']
                 )
