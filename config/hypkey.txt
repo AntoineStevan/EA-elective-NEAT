@@ -18,7 +18,7 @@ prob_mutConn      - (float)  - chance to mutate connection weight
 prob_initEnable   - (float)  - chance to enable each initial connection
 
 select_cullRatio  - (float)  - percent of individuals to remove from parent pool before selection
-select_eliteRatio - (float)  - percent of individuals to pass on to next genration unchanged
+select_eliteRatio - (float)  - percent of individuals to pass on to next generation unchanged
 select_rankWeight - (string) - how to scale individual rank ["exp", "lin"]
 select_tournSize  - (int)    - number of competitors in each tournament
 
@@ -29,9 +29,10 @@ spec_thresh       - (int)    - distance from species seed to belong to species
 spec_threshMin    - (float)  - minimum species distance threshold
 spec_geneCoef     - (float)  - weighting of non-matching genes in compatibility distance calculation
 spec_weightCoef   - (float)  - weighting of weight differences in compatibility distance calculation
+
 save_mod          - (int)    - generations between saving results to disk
 bestReps          - (int)    - number of times to test new 'best' solutions to confirm
-budget            - (int)    - maximum number of evaluation
+budget            - (int)    - maximum number of evaluation during evolution
 gif_file          - (str)    - location to save the gif after evaluation
 time              - (int)    - ms per frame during evaluation, if 0 no imshow
 
