@@ -1,6 +1,6 @@
-import numpy as np
-
 from domain import GymTask, games
+
+import numpy as np
 
 
 def master():
@@ -53,16 +53,16 @@ def checkBest(data, hyp):
     * This is a bit hacky, but is only for data gathering, and not optimization
     """
     if data.newBest is True:
-        print('newBest True')
+        # print('newBest True')
         bestReps = hyp['bestReps']
         task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
         wVec = data.best[-1].wMat.flatten()
         aVec = data.best[-1].aVec.flatten()
-        fitVector=[]
+        fitVector = []
         for i in range(bestReps):
-            fitVector.append(task.getFitness(wVec,aVec))
+            fitVector.append(task.getFitness(wVec, aVec))
         trueFit = np.mean(fitVector)
-        print("New evaluated true fitness : {:.2f} |***| Previous true fitness : {:.2f}".format(trueFit, data.best[-2].fitness))
+        # print("New evaluated true fitness : {:.2f} |***| Previous true fitness : {:.2f}".format(trueFit, data.best[-2].fitness))
         data.elite[-1].fitness = trueFit
         data.fit_max[-1] = trueFit
 
@@ -70,11 +70,11 @@ def checkBest(data, hyp):
             data.best[-1].fitness = trueFit
             data.fit_top[-1] = trueFit
             data.bestFitVec = fitVector
-            print("Actually better!")
+            # print("Actually better!")
         else:  # Just lucky!
-            prev = hyp['save_mod']+1
+            prev = hyp['save_mod'] + 1
             data.best[-prev:] = data.best[-prev]
             data.fit_top[-prev:] = data.fit_top[-prev]
             data.newBest = False
-            print("Just lucky!")
+            # print("Just lucky!")
     return data
