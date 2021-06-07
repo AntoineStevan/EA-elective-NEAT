@@ -107,9 +107,9 @@ if __name__ == "__main__":
     b_fit = 0
     b_run = -1
     for run in t:
-        comment = f"run - {run} |---| b_fit - {b_fit} ({b_run}) |---| params - {list(runs[run].values())}\t\t\t\t{run} / {len(runs)}"
-        print(comment)
         fitness = run_one_hyp(hyp, runs[run], run)
         if fitness > b_fit:
             b_fit = fitness
             b_run = run
+        comment = f"run - {run} - fitness: {fitness} |---| b_fit - {b_fit} ({b_run}) |---| params - {list(runs[run].values())}\t\t\t\t{run} / {len(runs)}"
+        print(comment)
