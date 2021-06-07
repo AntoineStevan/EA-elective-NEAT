@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
     print(list(parameters.keys()))
     runs = RunBuilder.get_runs(parameters)
-    t = range(len(runs))
+    t = range(11, len(runs))
     b_fit = 0
     b_run = -1
     for run in t:

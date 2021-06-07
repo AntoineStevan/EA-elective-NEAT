@@ -1,3 +1,5 @@
+import numpy as np
+
 from domain import GymTask, games
 
 
@@ -23,7 +25,7 @@ def gatherData(data, neat, gen, hyp, savePop=False):
     """
     data.gatherData(neat.pop, neat.species)
     if (gen % hyp['save_mod']) == 0:
-        data = checkBest(data)
+        data = checkBest(data, hyp)
         data.save(gen)
 
     if savePop is True:  # Get a sample pop to play with in notebooks
@@ -36,7 +38,7 @@ def gatherData(data, neat, gen, hyp, savePop=False):
     return data
 
 
-def checkBest(data):
+def checkBest(data, hyp):
     """Checks better performing individual if it performs over many trials.
     Test a new 'best' individual with many different seeds to see if it really
     outperforms the current best.
@@ -50,7 +52,6 @@ def checkBest(data):
 
     * This is a bit hacky, but is only for data gathering, and not optimization
     """
-    global filename, hyp
     if data.newBest is True:
         print('newBest True')
         bestReps = hyp['bestReps']
