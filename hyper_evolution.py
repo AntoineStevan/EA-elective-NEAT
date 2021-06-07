@@ -43,7 +43,6 @@ def run_one_hyp(hyp, run_params, nb):
 
         if task.curr_eval >= task.budget:
             break
-
         data = gatherData(data, neat, gen, hyp)
         print(f"{gen}\t{data.display()}, |---| budget: {task.curr_eval} / {task.budget}", end='\r')
 
@@ -91,9 +90,8 @@ if __name__ == "__main__":
 
     hyp = loadHyp(pFileName=hyp_default, printHyp=True)
     updateHyp(hyp, hyp_adjust)
-
     parameters = OrderedDict(
-        popSize=[32, 64],
+        popSize=[64, 200],
 
         prob_addConn=[.025, .1],
         prob_addNode=[.015, .06],
@@ -105,7 +103,7 @@ if __name__ == "__main__":
 
     print(list(parameters.keys()))
     runs = RunBuilder.get_runs(parameters)
-    t = range(len(runs))
+    t = range(60,100)
     b_fit = 0
     b_run = -1
     for run in t:

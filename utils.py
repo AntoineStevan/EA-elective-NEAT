@@ -1,6 +1,11 @@
 from domain import GymTask, games
 
 
+import argparse
+from pprint import pprint
+
+import numpy as np
+
 def master():
     """Main NEAT optimization script
     """
@@ -23,7 +28,7 @@ def gatherData(data, neat, gen, hyp, savePop=False):
     """
     data.gatherData(neat.pop, neat.species)
     if (gen % hyp['save_mod']) == 0:
-        data = checkBest(data)
+        data = checkBest(data, hyp)
         data.save(gen)
 
     if savePop is True:  # Get a sample pop to play with in notebooks
@@ -36,7 +41,7 @@ def gatherData(data, neat, gen, hyp, savePop=False):
     return data
 
 
-def checkBest(data):
+def checkBest(data,hyp):
     """Checks better performing individual if it performs over many trials.
     Test a new 'best' individual with many different seeds to see if it really
     outperforms the current best.
@@ -50,9 +55,9 @@ def checkBest(data):
 
     * This is a bit hacky, but is only for data gathering, and not optimization
     """
-    global filename, hyp
+    global filename
     if data.newBest is True:
-        print('newBest True')
+        #print('newBest True')
         bestReps = hyp['bestReps']
         task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
         wVec = data.best[-1].wMat.flatten()
@@ -61,7 +66,7 @@ def checkBest(data):
         for i in range(bestReps):
             fitVector.append(task.getFitness(wVec,aVec))
         trueFit = np.mean(fitVector)
-        print("New evaluated true fitness : {:.2f} |***| Previous true fitness : {:.2f}".format(trueFit, data.best[-2].fitness))
+        #print("New evaluated true fitness : {:.2f} |***| Previous true fitness : {:.2f}".format(trueFit, data.best[-2].fitness))
         data.elite[-1].fitness = trueFit
         data.fit_max[-1] = trueFit
 
@@ -69,11 +74,11 @@ def checkBest(data):
             data.best[-1].fitness = trueFit
             data.fit_top[-1] = trueFit
             data.bestFitVec = fitVector
-            print("Actually better!")
+            #print("Actually better!")
         else:  # Just lucky!
             prev = hyp['save_mod']+1
             data.best[-prev:] = data.best[-prev]
             data.fit_top[-prev:] = data.fit_top[-prev]
             data.newBest = False
-            print("Just lucky!")
+            #print("Just lucky!")
     return data
