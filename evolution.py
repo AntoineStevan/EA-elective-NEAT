@@ -59,11 +59,11 @@ if __name__ == "__main__":
     data = DataGatherer(fileName, hyp)
     neat = Neat(hyp)
 
-    t_start = time.time()
     rewards = [[]] * args.eval
     bests = [[]] * args.eval
     elites = [[]] * args.eval
     for eval in range(args.eval):
+        t_start = time.time()
         task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
         for gen in range(hyp['maxGen']):
             pop = neat.ask()  # Get newly evolved individuals from NEAT
@@ -71,9 +71,9 @@ if __name__ == "__main__":
             for i in range(len(pop)):
                 wVec = pop[i].wMat.flatten()
                 aVec = pop[i].aVec.flatten()
-                seed = time.time()
-                seed = int(seed - int(seed) * 1e9)
-                reward[i] = task.getFitness(wVec, aVec, seed=seed)  # process it
+                # seed = time.time()
+                # seed = int(seed - int(seed) * 1e9)
+                reward[i] = task.getFitness(wVec, aVec, seed=-1)  # process it
                 if task.curr_eval >= task.budget:
                     break
             neat.tell(reward)  # Send fitness to NEAT
