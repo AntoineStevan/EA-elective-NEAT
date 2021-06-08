@@ -51,6 +51,8 @@ class MinatarWrapper(Environment):
             self.display_state(time=time)
         state = (self._state() + 1)/2
         state = state / np.max(state) * 256
+        mag = 100
+        state = np.kron(state, np.ones(shape=(mag, mag)))
         image = Image.fromarray(state)
         return image.convert('P')
 
