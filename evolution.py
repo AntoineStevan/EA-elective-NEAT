@@ -86,6 +86,14 @@ if __name__ == "__main__":
             pt = int(prev_t)
             print(f"\t|---| {tt // 60}:{tt % 60} / {pt // 60}:{pt % 60}")
 
+        data = gatherData(data, neat, gen, hyp)
+        t = time.time() - t_start
+        prev_t = hyp["budget"] / task.curr_eval * t
+        print(gen, '\t - \t', data.display(), f"|---| budget: {task.curr_eval} / {task.budget}", end=' ')
+        tt = int(t)
+        pt = int(prev_t)
+        print(f"\t|---| {tt // 60}:{tt % 60} / {pt // 60}:{pt % 60}")
+
     np.save("log/rewards", rewards)
 
     for i in range(args.eval):
