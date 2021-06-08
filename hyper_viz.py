@@ -12,8 +12,6 @@ iteration = 0
 files = os.listdir(directory)
 files.sort()
 
-files = ["run_3.data.npy", "run_7.data.npy"]
-
 for run in files:
     iteration += 1
     file = os.path.join(directory, run)
