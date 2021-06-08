@@ -71,7 +71,7 @@ if __name__ == "__main__":
             break
 
         data = gatherData(data, neat, gen, hyp)
-        
+
         t = time.time() - t_start
         prev_t = hyp["budget"] / task.curr_eval * t
         print(gen, '\t - \t', data.display(), f"|---| budget: {task.curr_eval} / {task.budget}", end=' ')

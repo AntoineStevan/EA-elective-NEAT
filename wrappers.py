@@ -1,6 +1,9 @@
 import numpy as np
 from PIL import Image
+from matplotlib import pyplot as plt
 from minatar import Environment
+
+import domain
 
 
 class MinatarWrapper(Environment):
@@ -53,6 +56,8 @@ class MinatarWrapper(Environment):
         state = super().state()
         state = state.transpose((2, 0, 1))
         state = np.sum([state[i] * (i+1) for i in range(state.shape[0])], axis=0)
+        m, M = np.min(state), np.max(state)
+        state = 2 * (state - m) / (M - m) - 1
         return state
 
 
