@@ -369,4 +369,3 @@ dmypy.json
 # special skips.
 *.gif
 log/
-*.ipynb

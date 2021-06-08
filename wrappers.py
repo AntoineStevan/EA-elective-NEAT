@@ -22,15 +22,16 @@ class MinatarWrapper(Environment):
 
     def step(self, actions):
         """
-            Resets the environment.
+            Steps in the environment.
 
             Args:
-                actions ():_______________________________________TODO__________________________________________________
+                actions (): the action to take.
 
             Return:
-                (observation) the first observation.
+                (tensor, float, bool, dict) new observation, reward, done signal and complementary informations.
         """
-        reward, done = self.act(minatar_action(actions))
+        # reward, done = self.act(minatar_action(actions))
+        reward, done = self.act(5)
         state = self._state().flatten()
 
         return state, reward, done, {}
@@ -40,10 +41,11 @@ class MinatarWrapper(Environment):
             Resets the environment.
 
             Args:
-                done (bool):_________________________________________TODO_______________________________________________
+                time (int): the number of milliseconds for each frame. if 0, there will be no live animation.
+                done (bool): tells if the episode is done.
 
             Return:
-                (observation) the first observation.
+                (Image) the current image of the game.
         """
         if time:
             self.display_state(time=time)
@@ -53,9 +55,16 @@ class MinatarWrapper(Environment):
         return image.convert('P')
 
     def _state(self):
+        """
+            Reduces the dimensions of the raw observation and normalize it.
+        """
+        # get the obsservation.
         state = super().state()
+        # transpose to make it human readable.
         state = state.transpose((2, 0, 1))
-        state = np.sum([state[i] * (i+1) for i in range(state.shape[0])], axis=0)
+        # sums the object channels to have a single image.
+        state = np.sum([state[i] * (i + 1) for i in range(state.shape[0])], axis=0)
+        # normalize the image
         m, M = np.min(state), np.max(state)
         state = 2 * (state - m) / (M - m) - 1
         return state
