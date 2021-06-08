@@ -16,7 +16,6 @@ def printNN(file, show=False):
     dead = 0
     color_map = []
 
-
     # Generation de tous les noeuds du graph
     for i in range(len(wMat)):
         if np.all(wMat[i, :] == 0) and np.all(wMat[:, i] == 0):
@@ -42,7 +41,7 @@ def printNN(file, show=False):
     for i in range(len(wMat)):
         for j in range(len(wMat[:, i])):
 
-            if not wMat[j, i]==0:
+            if not wMat[j, i] == 0:
                 neural_graph.add_edge(i, j, weight=wMat[j, i])
 
     nx.draw_networkx(neural_graph, node_color=color_map, with_labels=False)
@@ -55,8 +54,9 @@ def printNN(file, show=False):
         print("non connecté : " + str(dead))
     return input, hidden, output, dead
 
+
 if __name__ == "__main__":
-## Parse input
+    ## Parse input
     parser = argparse.ArgumentParser(description=('Pretty Print for Neat'))
 
     parser.add_argument('-d', '--directory', type=str, help='Directory Rewards', default='log/freeway/')
@@ -64,5 +64,5 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-## End Parse Input
+    ## End Parse Input
     input, hidden, output, dead = printNN(args.directory + args.file, show=True)
