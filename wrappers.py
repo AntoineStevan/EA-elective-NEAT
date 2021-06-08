@@ -30,7 +30,8 @@ class MinatarWrapper(Environment):
             Return:
                 (tensor, float, bool, dict) new observation, reward, done signal and complementary informations.
         """
-        action = minatar_action(actions)
+        #action = minatar_action(actions)
+        action = np.random.randint(6)
         reward, done = self.act(action)
         state = self._state().flatten()
 

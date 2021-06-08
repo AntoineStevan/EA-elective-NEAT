@@ -367,5 +367,5 @@ dmypy.json
 .pyre/
 
 # special skips.
-*.gif
+
 log/
