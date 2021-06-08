@@ -8,7 +8,7 @@ def master():
     """
 
 
-def gatherData(data, neat, gen, hyp, savePop=False):
+def gatherData(data, neat, gen, hyp, fileName, savePop=False):
     """Collects run data, saves it to disk, and exports pickled population
 
     Args:
@@ -29,7 +29,6 @@ def gatherData(data, neat, gen, hyp, savePop=False):
         data.save(gen)
 
     if savePop is True:  # Get a sample pop to play with in notebooks
-        global fileName
         pref = 'log/' + fileName
         import pickle
         with open(pref + '_pop.obj', 'wb') as fp:

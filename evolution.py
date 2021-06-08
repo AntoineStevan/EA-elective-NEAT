@@ -1,4 +1,5 @@
 import argparse
+import os
 import time
 from pprint import pprint
 
@@ -60,7 +61,9 @@ if __name__ == "__main__":
 
     t_start = time.time()
     task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
-    rewards = np.zeros((args.eval, hyp['maxGen']))
+    rewards = [[]] * args.eval
+    bests = [[]] * args.eval
+    elites = [[]] * args.eval
     for eval in range(args.eval):
         for gen in range(hyp['maxGen']):
             pop = neat.ask()  # Get newly evolved individuals from NEAT
@@ -68,16 +71,23 @@ if __name__ == "__main__":
             for i in range(len(pop)):
                 wVec = pop[i].wMat.flatten()
                 aVec = pop[i].aVec.flatten()
-                reward[i] = task.getFitness(wVec, aVec)  # process it
+                seed = time.time()
+                seed = seed - int(seed)
+                seed = int(seed * 1e9)
+                print(seed)
+                reward[i] = task.getFitness(wVec, aVec, seed=seed)  # process it
                 if task.curr_eval >= task.budget:
                     break
             neat.tell(reward)  # Send fitness to NEAT
-            rewards[eval][gen] = np.max(reward)
 
             if task.curr_eval >= task.budget:
                 break
 
-            data = gatherData(data, neat, gen, hyp)
+            data = gatherData(data, neat, gen, hyp, fileName=fileName)
+
+            rewards[eval].append(np.max(reward))
+            bests[eval].append(data.best[-1].fitness)
+            elites[eval].append(data.elite[-1].fitness)
 
             t = time.time() - t_start
             prev_t = hyp["budget"] / task.curr_eval * t
@@ -86,7 +96,7 @@ if __name__ == "__main__":
             pt = int(prev_t)
             print(f"\t|---| {tt // 60}:{tt % 60} / {pt // 60}:{pt % 60}")
 
-        data = gatherData(data, neat, gen, hyp)
+        data = gatherData(data, neat, gen, hyp, fileName=fileName)
         t = time.time() - t_start
         prev_t = hyp["budget"] / task.curr_eval * t
         print(gen, '\t - \t', data.display(), f"|---| budget: {task.curr_eval} / {task.budget}", end=' ')
@@ -94,14 +104,30 @@ if __name__ == "__main__":
         pt = int(prev_t)
         print(f"\t|---| {tt // 60}:{tt % 60} / {pt // 60}:{pt % 60}")
 
-    np.save("log/rewards", rewards)
+    directory = os.path.join("log", "learn")
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    np.save(os.path.join(directory, "rewards"), rewards)
+    np.save(os.path.join(directory, "bests"), bests)
+    np.save(os.path.join(directory, "elites"), elites)
 
     for i in range(args.eval):
-        plt.show(rewards[i], label=str(i))
+        plt.plot(rewards[i], label=str(i))
+    plt.legend()
+    plt.show()
+
+    for i in range(args.eval):
+        plt.plot(bests[i], label=str(i))
+    plt.legend()
+    plt.show()
+
+    for i in range(args.eval):
+        plt.plot(elites[i], label=str(i))
     plt.legend()
     plt.show()
 
     # Clean up and data gathering at run end
-    data = gatherData(data, neat, gen, hyp, savePop=True)
+    data = gatherData(data, neat, gen, hyp, savePop=True, fileName=fileName)
     data.save()
     data.savePop(neat.pop, fileName)  # Save population as 2D numpy arrays
