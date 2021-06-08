@@ -26,8 +26,8 @@
     "spec_weightCoef": 0.5,
     "save_mod": 1,
     "bestReps": 20,
-    "budget": 50000,
-    "gif_file": "./log/breakout/",
+    "budget": 500,
+    "gif_file": "./log/breakout/gifs/",
     "time": 0
 
 }

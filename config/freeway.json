@@ -27,7 +27,7 @@
     "save_mod": 1,
     "bestReps": 20,
     "budget": 50000,
-    "gif_file": "./log/freeway/",
+    "gif_file": "./log/freeway/gifs/",
     "time": 0
 
 }

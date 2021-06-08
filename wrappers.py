@@ -30,8 +30,8 @@ class MinatarWrapper(Environment):
             Return:
                 (tensor, float, bool, dict) new observation, reward, done signal and complementary informations.
         """
-        # reward, done = self.act(minatar_action(actions))
-        reward, done = self.act(5)
+        action = minatar_action(actions)
+        reward, done = self.act(action)
         state = self._state().flatten()
 
         return state, reward, done, {}
@@ -49,7 +49,7 @@ class MinatarWrapper(Environment):
         """
         if time:
             self.display_state(time=time)
-        state = self._state()
+        state = (self._state() + 1)/2
         state = state / np.max(state) * 256
         image = Image.fromarray(state)
         return image.convert('P')

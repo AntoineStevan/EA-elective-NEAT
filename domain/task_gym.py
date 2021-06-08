@@ -79,8 +79,12 @@ class GymTask:
 
         # == EA-elective-NEAT ==========================================================================================
         if view:
+            directory = os.path.join(*self.gif_file.split('/')[:-1])
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+
             print("saving gif file inside", self.gif_file)
-            self.images[0].save(self.gif_file, save_all=True, append_images=self.images[1:], optimize=False, duration=1000 // 30, loop=0)
+            self.images[0].save(self.gif_file, save_all=True, append_images=self.images[1:], optimize=False, duration=1000 // 1000, loop=0)
         # ==============================================================================================================
 
         return fitness
