@@ -60,11 +60,11 @@ if __name__ == "__main__":
     neat = Neat(hyp)
 
     t_start = time.time()
-    task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
     rewards = [[]] * args.eval
     bests = [[]] * args.eval
     elites = [[]] * args.eval
     for eval in range(args.eval):
+        task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
         for gen in range(hyp['maxGen']):
             pop = neat.ask()  # Get newly evolved individuals from NEAT
             reward = np.empty(len(pop), dtype=np.float64)
@@ -72,9 +72,7 @@ if __name__ == "__main__":
                 wVec = pop[i].wMat.flatten()
                 aVec = pop[i].aVec.flatten()
                 seed = time.time()
-                seed = seed - int(seed)
-                seed = int(seed * 1e9)
-                print(seed)
+                seed = int(seed - int(seed) * 1e9)
                 reward[i] = task.getFitness(wVec, aVec, seed=seed)  # process it
                 if task.curr_eval >= task.budget:
                     break
