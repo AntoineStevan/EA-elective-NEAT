@@ -1,4 +1,5 @@
 import argparse
+import time
 from pprint import pprint
 
 import numpy as np
@@ -53,6 +54,7 @@ if __name__ == "__main__":
     data = DataGatherer(fileName, hyp)
     neat = Neat(hyp)
 
+    t_start = time.time()
     task = GymTask(games[hyp['task']], nReps=hyp['alg_nReps'], budget=hyp["budget"])
     for gen in range(hyp['maxGen']):
         pop = neat.ask()  # Get newly evolved individuals from NEAT
@@ -69,7 +71,12 @@ if __name__ == "__main__":
             break
 
         data = gatherData(data, neat, gen, hyp)
-        print(gen, '\t - \t', data.display(), f"|---| budget: {task.curr_eval} / {task.budget}")
+        t = time.time() - t_start
+        prev_t = hyp["budget"] / task.curr_eval * t
+        print(gen, '\t - \t', data.display(), f"|---| budget: {task.curr_eval} / {task.budget}", end=' ')
+        tt = int(t)
+        pt = int(prev_t)
+        print(f"\t|---| {tt // 60}:{tt % 60} / {pt // 60}:{pt % 60}")
 
 
     # Clean up and data gathering at run end
